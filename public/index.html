@@ -2,7 +2,12 @@
 <html>
     <head></head>
     <body>
-        Chat App with nodemon
+        Chat App
+        <form id="message-form">
+            <input placeholder="Message" name="newMsg" id="newMsg" />
+            <button>Send</button>
+        </form>
+        <button id="send-location">Send Location</button>
         <script src="/socket.io/socket.io.js"></script>
         <script src="js/chat.js"></script>
     </body>

@@ -13,8 +13,24 @@ const publicDirectoryPath = path.join(__dirname, '../public')
 
 app.use(express.static(publicDirectoryPath))
 
-io.on('connection', () => {
+let count = 0
+
+io.on('connection', (socket) => {
     console.log("New Web Socket Connection")
+    
+    socket.emit("message", 'Welcome!')
+    socket.broadcast.emit('message', "A new User Joined.")
+    socket.on('sendMessage', (newMsg) => {
+        io.emit('message', newMsg)
+    })
+
+    socket.on('disconnect', () => {
+        io.emit("message", "A user has left")
+    })
+
+    socket.on('sendLocation', (location) =>{
+        io.emit('message', `https://www.google.com/maps?q=${location.latitude},${location.longitude}`)
+    })
 })
 server.listen(port, () => {
     console.log(`Server is UP & Running on post ${port}.`)
